@@ -3,7 +3,8 @@
 		<div class="module" ng-class="module.options.className">
 			<div class="handle"></div>
 			<md-content md-theme="docs-dark" layout-padding layout="row">
-				<ui-view name='{{module.view}}'/>
+				<!-- <ui-view name='{{module.view}}'/> -->
+				<ng-include src='module.templateUrl'></ng-include>
 			</md-content>
 		</div>
 	</li>

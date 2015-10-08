@@ -5,11 +5,12 @@ angular.module('testApp').directive("views", function(){
         replace: true,
         controller: function ($scope, $element, $attrs, MANIFEST, $mdDialog, ManifestService){
             $attrs.$observe("state", function(state){
-                $scope.modules = _.values(MANIFEST.states[state].views);
+                $scope.modules = _.values(MANIFEST.states[state].data.includes);
+                console.info(state);
             });
 
             $scope.$on("MANIFEST:UPDATE", function(evt, state){
-                $scope.modules = _.values(MANIFEST.states[state].views);
+                $scope.modules = _.values(MANIFEST.states[state].data.includes);
                 console.info($scope.modules);
             });
 
@@ -24,7 +25,7 @@ angular.module('testApp').directive("views", function(){
                     //showAdvanced(evt);
                     showConfirm(evt).then(
                         function(data){
-                           ManifestService.createAndInsert(i,{});
+                           ManifestService.createAndInsert(i);
                         },
                         function(data){console.info("cancel");
                     });

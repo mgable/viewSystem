@@ -8,49 +8,36 @@ var manifest = {states: {
     "app.dashboard": {
         url: "/",
         name: "app.dashboard",
-        views: { "a": {
+        data : {
+            includes: [{
                     "name" : "mock 1",
-                    "view": "a",
                     "templateUrl": "views/_mock.html",
-                    "controller": "MainCtrl",
                     "options": {
                         "width": "50%",
                         "className": "mock"
-                    }
-                },
-                "b": {
-                    "name" : "mock 2",
-                    "view": "b",
+                    }},
+                    {"name" : "mock 2",
                     "templateUrl": "views/_mock_1.html",
-                    "controller": "MainCtrl",
                     "options": {
                         "width": "50%",
                         "className": "mock_2"
-                    }
-                },
-                "c": {
-                    "view": "c",
-                    "name" : "mock 3",
-                    "templateUrl": "views/_mock.html",
-                    "controller": "MainCtrl"
-                }
+                    }},
+                    {"name" : "mock 3",
+                     "templateUrl": "views/_mock.html"}
+                ]
             }
+        }
     }
-}};
+};
 
 angular.module('testApp').constant("MANIFEST", manifest);
 
-angular.module('testApp').service("ManifestService", function($rootScope, $state, MANIFEST, runtimeStates){
+angular.module('testApp').service("ManifestService", function($rootScope, $state, MANIFEST){
     this.module = {};
 
     this.createAndInsert = function(index, params){
         var module = create(params);
-
-        console.info("the module is ");
-        console.info(module);
-        runtimeStates.addState(module.name, module);
         insert(index, module);
-        console.info($state.get("app.dashboard"));
     };
 
     var counter = 0;
@@ -58,10 +45,8 @@ angular.module('testApp').service("ManifestService", function($rootScope, $state
     function create(params){
         var name = "newView_" + counter++;
         var module = {
-                "name": name + counter,
-                "view": name,
+                "name": name,
                 "templateUrl": "views/_mock.html",
-                "controller": "SecondCtrl",
                 "options": {
                     "width": "50%",
                     "className": "mock"
@@ -73,16 +58,11 @@ angular.module('testApp').service("ManifestService", function($rootScope, $state
 
     function insert(where, data){
         var currentState = getCurrentView(),
-            temp = _.values(MANIFEST.states[currentState].views),
-            views = {};
+            includes = _.values(MANIFEST.states[currentState].data.includes);
 
-        temp.splice((where + 1),0,data);
+        includes.splice((where + 1),0,data);
 
-        temp.forEach(function(v,i,a){
-          views[v.view] = v;
-        });
-
-        MANIFEST.states[currentState].views = views;
+        MANIFEST.states[currentState].data.includes = includes;
 
         $rootScope.$broadcast("MANIFEST:UPDATE", currentState);
 

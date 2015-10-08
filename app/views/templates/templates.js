@@ -2,16 +2,22 @@ angular.module('consoleApp').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('views/_mock.html',
+    "<div ng-controller=\"MainCtrl\">\n" +
     "this is {{module.name}}<br/>{{module}}\n" +
-    "Hey there!"
+    "Hey there! foo is {{foo}}\n" +
+    "</div>"
   );
 
 
   $templateCache.put('views/_mock_1.html',
-    "<md-input-container>\n" +
-    "\t<label>Enter your name:</label>\n" +
-    "\t<input ng-model=\"username\" type=\"text\">\n" +
-    "</md-input-container>"
+    "<div ng-controller=\"SecondCtrl\">\n" +
+    "\t<md-input-container>\n" +
+    "\t\t<label>Enter your name:</label>\n" +
+    "\t\t<input ng-model=\"username\" type=\"text\">\n" +
+    "\t</md-input-container>\n" +
+    "\n" +
+    "\tUsername backwards: {{backwards}}\n" +
+    "</div>"
   );
 
 
@@ -21,7 +27,8 @@ angular.module('consoleApp').run(['$templateCache', function($templateCache) {
     "\t\t<div class=\"module\" ng-class=\"module.options.className\">\n" +
     "\t\t\t<div class=\"handle\"></div>\n" +
     "\t\t\t<md-content md-theme=\"docs-dark\" layout-padding layout=\"row\">\n" +
-    "\t\t\t\t<ui-view name='{{module.view}}'/>\n" +
+    "\t\t\t\t<!-- <ui-view name='{{module.view}}'/> -->\n" +
+    "\t\t\t\t<ng-include src='module.templateUrl'></ng-include>\n" +
     "\t\t\t</md-content>\n" +
     "\t\t</div>\n" +
     "\t</li>\n" +
