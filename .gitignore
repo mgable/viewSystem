@@ -1,0 +1,12 @@
+node_modules
+dist
+.tmp
+bower_components
+.bower-cache/
+.bower-registry/
+newrelic_agent.log
+.*DS_Store
+.DS_Store
+reports
+dump.rdb
+*.sublime-*

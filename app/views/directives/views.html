@@ -1,0 +1,10 @@
+<ul class='viewsHolder' ui-sortable="sortableOptions" ng-model="modules" ng-click="addModule($event)">
+	<li class='viewHolder' ng-repeat='module in modules' ng-style="{'width': module.options.width}">
+		<div class="module" ng-class="module.options.className">
+			<div class="handle"></div>
+			<md-content md-theme="docs-dark" layout-padding layout="row">
+				<ui-view name='{{module.view}}'/>
+			</md-content>
+		</div>
+	</li>
+</ul>
